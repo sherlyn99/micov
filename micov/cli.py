@@ -6,6 +6,7 @@ import duckdb
 import os
 import io
 import sys
+import warnings
 from glob import glob
 from ._io import (parse_genome_lengths, parse_taxonomy, set_taxonomy_as_id,
                   parse_qiita_coverages, parse_sam_to_df, write_qiita_cov,
@@ -22,6 +23,8 @@ from ._constants import (COLUMN_SAMPLE_ID, COLUMN_GENOME_ID,
                          COLUMN_START, COLUMN_CIGAR, COLUMN_STOP)
 from ._quant import pos_to_bins, make_csv_ready
 
+warnings.filterwarnings("ignore", category=pl.MapWithoutReturnDtypeWarning)
+warnings.filterwarnings("ignore", category=pl.DataOrientationWarning)
 
 def _first_col_as_set(fp):
     df = pl.read_csv(fp, separator='\t', infer_schema_length=0)
